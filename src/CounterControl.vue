@@ -11,6 +11,7 @@
             step="1"
             min="1"
             max="10"
+            @change="amountUpdate"
         >
         <button @click="increment">Increment Count</button>
         <button @click="decrement">Decrement Count</button>
@@ -18,27 +19,46 @@
 </template>
 
 <script>
-    import { bus } from './main.js';
+    import { mapGetters } from 'vuex';
+    import { mapMutations } from 'vuex';
+    import { mapActions } from 'vuex';
 
     export default {
         name: 'CounterControl',
 
-        data () {
-            return {
-                amount: 1
-            }
+        computed: {
+            //"..." = spread operator => destructures (extracts each element of) what is on its right
+            ...mapGetters ( [
+                'amount'
+            ] )
+            //Can be followed normally by any variable
         },
 
         methods: {
+            ...mapMutations( {
+                //increment: 'countValueIncrement',
+                decrement: 'countValueDecrement'
+            } ),
+            /*
             increment () {
-                bus.$emit( 'countValueIncrement', parseInt( this.amount ) ); //have to parseInt as input range gives text, not a number
+                this.$store.commit( 'CountValueIncrement' );
             },
 
             decrement () {
-                bus.$emit( 'countValueDecrement', parseInt( this.amount ) );
-            }
+                this.$store.commit( 'CountValueDecrement' );
+            },
+            */
+            amountUpdate ( event ) {
+                this.$store.commit( 'amountUpdate', event.target.value );
+            },
+            /*
+            increment () {
+                this.store.dispatch( 'countValueIncrement' ); //call to actions, not mutations
+            }*/
+            ...mapActions( {
+                increment: 'countValueIncrement'
+            } ),
         }
-
     }
 </script>
 

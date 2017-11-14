@@ -1,13 +1,9 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import { store } from './store.js'
 import App from './App.vue'
-
-Vue.use( Vuex )
-
-export const bus = new Vue()
 
 new Vue({
   el: '#app',
-
+  store,
   render: h => h(App)
 })

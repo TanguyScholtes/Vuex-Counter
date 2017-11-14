@@ -1,40 +1,28 @@
 <template>
     <div>
-        <p>Count : {{ count.value }}</p>
+        <p>Count : {{ value }}</p>
     </div>
 </template>
 
 <script>
-    import { bus } from './main.js';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: 'CounterDisplay',
 
-        data () {
-            return {
-                count: {
-                    value: 0,
-                    amount: 1 //value of increment/decrement
-                }
+        computed: {
+            /*
+            value () {
+                //return this.$store.state.count.value;
+                return this.$store.getters.value; //use getters
             }
+            */
+            ...mapGetters ( [
+                'value'
+            ] )
         },
 
-        created () {
-            bus.$on( 'countValueIncrement', this.countValueIncrement );
-            bus.$on( 'countValueDecrement', this.countValueDecrement );
-        },
-
-        methods: {
-            countValueIncrement( payload ) {
-                this.count.amount = payload;
-                this.count.value += this.count.amount;
-            },
-
-            countValueDecrement( payload ) {
-                this.count.amount = payload;
-                this.count.value -= this.count.amount;
-            }
-        }
+        methods: {}
     }
 </script>
 
